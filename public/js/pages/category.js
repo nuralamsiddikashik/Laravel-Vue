@@ -4,7 +4,8 @@ new Vue({
         category: {
             name: '',
             parent_id: '',
-            slug: ''
+            slug: '',
+            status: 1
         },
         categories: []
     },

@@ -25,8 +25,14 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post( '/categories', 'CategoryController@addCategory' )->name( 'categories.store' );
     Route::put( '/categories/{id}', 'CategoryController@updateCategory' )->name( 'categories.update' );
     Route::delete( '/categories/{id}', 'CategoryController@deleteCategory' )->name( 'categories.delete' );
+
+    // Product Route
+
+    Route::get( '/products', 'ProductController@index' )->name( 'product.index' );
+    Route::post( '/products', 'ProductController@store' )->name( 'product.store' );
 } );
 
 Route::group( ['middleware' => ['auth'], 'prefix' => 'api'], function () {
     Route::get( '/categories', 'CategoryController@getCategoryList' )->name( 'api.category.list' );
+    Route::get( '/products', 'ProductController@getProductList' )->name( 'api.product.list' );
 } );

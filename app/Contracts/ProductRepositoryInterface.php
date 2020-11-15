@@ -6,17 +6,17 @@
 
 namespace App\Contracts;
 
-interface CategoryRepositoryInterface {
+interface ProductRepositoryInterface {
     /**
      * @return mixed
      */
-    public function get( bool $paginate );
+    public function get();
 
     /**
      * @param $id
      * @return mixed
      */
-    public function find( $id );
+    public function find();
 
     /**
      * @param array $data

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid px-0" id="categoryPage" v-cloak>
+    <div class="container-fluid px-0" id="productPage" v-cloak>
         <!-- The side bar -->
     @include('layouts.partials.sidebar')
 
@@ -158,75 +158,83 @@
           <!--Page Body part -->
           <div class="page-body p-4 text-dark">
             <div class="page-heading border-bottom d-flex flex-row">
-                <h5 class="font-weight-normal">Category</h5>
+                <h5 class="font-weight-normal">Product</h5>
             </div>
-            <div class="row">
-                
-                <div class="col-md-4 mt-2">
+            <div class="row mt-4">
+                <div class="col-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">Category Name</label>
-                                <input type="text" v-model="category.name" id="name" name="name" class="form-control">
+                                <label for="title">Title</label>
+                                <input class="form-control" type="text" id="title" name="title" v-model="product.title">
                             </div>
+
                             <div class="form-group">
-                                <label for="parent_cat">Parent Category</label>
-                                <select class="form-control" name="parent_cat" id="parent_cat" v-model="category.parent_id">
-                                   
-                                    <option v-for="(category,index) in categories.data" :value="category.id">@{{category.name}}</option>
-                                </select>
+                                <label for="description">Description</label>
+                               <textarea name="description" id="description" cols="10" rows="5" class="form-control" v-model="product.description"></textarea>
                             </div>
                             
                             <div class="form-group">
-                                <label for="status">Select</label>
-                                <select class="form-control" name="status" id="status" v-model="category.status">
-                                   <option value="1">Active</option>
-                                   <option value="0">Inactive</option>
+                                <label for="sku">SKU</label>
+                                <input type="text" id="sku" name="sku" class="form-control" v-model="product.sku">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select v-model="product.category_id" class="form-control" id="category">
+                                    @foreach($categories as $category_id => $category_name)
+                                        <option value="{{ $category_id}}">{{ $category_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            
+
+                            <div class="form-group">
+                                <input type="file" class="form-control" id="featureImage" ref="featureImage" accept="image/*" @change.prevent="handleFeatureImage">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select v-model="product.status" class="form-control" id="status">
+                                    <option value="1">Active</option>
+                                    <option value="2">In Active</option>
+                                    <option value="3">Pending</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="published_by">{{__('Published By')}}</label>
+                                <input type="text" class="form-control" id="published_by" name="published_by" value="{{ auth()->user()->name}}" readonly>
+                            </div>
+                            <button class="btn btn-success" @click.prevent="StoreProduct('{{route('product.store')}}')">Submit</button>
                         </div>
-                        <button class="btn btn-info" @click="createCategory('{{ route('categories.store') }}')">Save</button>
                     </div>
                 </div>
-                    <div class="col-md-8 mt-2">
-                        <div class="card" v-if="categories">
+
+                <div class="col-6">
+                    <div class="card" v-if="products">
+                        <div class="card">
                             <div class="card-body">
                                 <table class="table">
-                                   <thead>
-                                       <tr>
-                                           {{-- <th>ID</th> --}}
-                                           <th>Name</th>
-                                           <th>Slug</th>
-                                           <th>Status</th>
-                                           <th>Action</th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>
-                                       <tr v-for="(cat,i) in categories.data" :key="i">
-                                        
-                                            <td>@{{ cat.id}}</td>
-                                            <td>@{{ cat.name}}</td>
-                                            <td>@{{ cat.slug }}</td>
-                                            <td>@{{ cat.status}}</td>
-                                            <td>
-                                                
-                                                <i class="fa fa-edit fa-1x mr-2" data-toggle="modal" data-target="#editCategory" data-backdrop="static" @click="setCategory(cat)"></i>
-
-                                                <i class="fa fa-trash fa-1x mr-2" data-toggle="modal" data-target="#deleteCategory" data-backdrop="static" @click="setCategory(cat)"></i>
-                                            
-                                            </td>
-                                            
-                                       </tr>
-                                   </tbody>
+                                    <thead>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Name</td>
+                                            <td>slug</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(product,i) in products" :key="i">
+                                            <td>@{{product.id}}</td>
+                                            <td>@{{product.title}}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @include('modals.category.edit')
-            @include('modals.category.delete')
+            
         </div>
     </main>
         <!-- Footer section -->
@@ -238,7 +246,7 @@
 @endsection
 @push('js')
     <script>
-        let CategoryListRoute = '{{ route('api.category.list')}}'
+        let ProductListRoute = '{{ route('api.product.list')}}'
     </script>
-    <script type="module" src="{{ asset('js/pages/category.js') }}"></script>
+    <script type="module" src="{{ asset('js/pages/product.js') }}"></script>
 @endpush

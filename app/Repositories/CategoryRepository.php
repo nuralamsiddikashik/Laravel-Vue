@@ -25,8 +25,9 @@ class CategoryRepository implements CategoryRepositoryInterface {
         $this->model = $model;
     }
 
-    public function get() {
-        return $this->model->select( 'id', 'name', 'slug', 'status', 'parent_id' )->where( 'parent_id', 0 )->with( 'childs' )->get();
+    public function get( $paginate = false ) {
+        $categories = $this->model->select( 'id', 'name', 'slug', 'status', 'parent_id' )->where( 'parent_id', 0 )->with( 'childs' );
+        return $paginate ? $categories->paginate( 100 ) : $categories->get();
     }
 
     public function find( $id ) {
@@ -42,6 +43,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
             'name'      => $data['name'],
             'slug'      => Str::slug( $data['name'] ),
             'parent_id' => $data['parent_id'] ?? 0,
+            'status'    => $data['status'],
 
         ] );
     }

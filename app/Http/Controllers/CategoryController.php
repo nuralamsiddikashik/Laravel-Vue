@@ -32,6 +32,7 @@ class CategoryController extends Controller {
             $data = $this->validate( $this->request, [
                 'name'      => 'required|string|unique:categories|min:3|max:255',
                 'parent_id' => 'nullable|numeric|exists:categories,id',
+                'status'    => 'required|numeric|min:0|max:1',
             ] );
             $categoryRepository->store( $data );
             return response()->json( [
@@ -45,7 +46,7 @@ class CategoryController extends Controller {
 
     public function getCategoryList( CategoryRepositoryInterface $categoryRepository ) {
         try {
-            $categories = $categoryRepository->get();
+            $categories = $categoryRepository->get( true );
             return response()->json( [
                 'message' => 'Category List',
                 'data'    => $categories,
