@@ -66,7 +66,7 @@ let app = new Vue({
         },
         handleFeatureImage() {
 
-            this.file = this.$refs.featureImage.files[0];
+            this.product.feature_image = this.$refs.featureImage.files[0];
         }
     },
     computed: {

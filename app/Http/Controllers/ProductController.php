@@ -33,6 +33,7 @@ class ProductController extends Controller {
             ] );
 
             $data['published_by'] = auth()->user()->id;
+            dd( $data );
             $productRepository->store( $data );
             return response()->json( [
                 'message' => 'Products Added',
@@ -41,7 +42,7 @@ class ProductController extends Controller {
             // dd( $exception->errors() );
             return response()->json( ['message' => $exception->getMessage()] );
         } catch ( QueryException | \Exception $exception ) {
-            // dd( $exception->getMessage() );
+            dd( $exception->getMessage() );
             return response()->json( ['message' => 'Something went worng'] );
         }
     }
