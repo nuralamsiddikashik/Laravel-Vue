@@ -62,7 +62,11 @@ let app = new Vue({
                 sku: '',
                 description: '',
                 status: 1,
+                feature_image: '',
             }
+            const featureImage = this.$refs.featureImage;
+            featureImage.type = 'text';
+            featureImage.type = 'file';
         },
         handleFeatureImage() {
 

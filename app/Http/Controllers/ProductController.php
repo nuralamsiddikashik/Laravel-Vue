@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Contracts\CategoryRepositoryInterface;
 use App\Contracts\ProductRepositoryInterface;
+use App\Traits\UploadFile;
 use auth;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller {
-
+    use UploadFile;
     public function __construct( Request $request ) {
         $this->request = $request;
     }
@@ -33,7 +34,8 @@ class ProductController extends Controller {
             ] );
 
             $data['published_by'] = auth()->user()->id;
-            dd( $data );
+            // dd( $data['feature_image']->getClientOriginalExtension() );
+            $data['image'] = $this->uploadSingleImage( $data['feature_image'], '/products', 'public', true, 200 );
             $productRepository->store( $data );
             return response()->json( [
                 'message' => 'Products Added',

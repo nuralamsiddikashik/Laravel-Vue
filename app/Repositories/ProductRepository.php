@@ -33,13 +33,14 @@ class ProductRepository implements ProductRepositoryInterface {
      */
     public function store( array $data ) {
         return $this->model->create( [
-            'title'        => $data['title'],
-            'slug'         => Str::slug( $data['title'] ),
-            'description'  => $data['description'],
-            'sku'          => $data['sku'],
-            'category_id'  => $data['category_id'],
-            'status'       => $data['status'],
-            'published_by' => $data['published_by'],
+            'title'         => $data['title'],
+            'slug'          => Str::slug( $data['title'] ),
+            'description'   => $data['description'],
+            'sku'           => $data['sku'],
+            'category_id'   => $data['category_id'],
+            'feature_image' => $data['image']['file_name'],
+            'status'        => $data['status'],
+            'published_by'  => $data['published_by'],
         ] );
     }
 
