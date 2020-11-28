@@ -161,7 +161,7 @@
                 <h5 class="font-weight-normal">Product</h5>
             </div>
             <div class="row mt-4">
-                <div class="col-6">
+                <div class="col-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
@@ -193,6 +193,26 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="cost_price">Cost Price</label>
+                                <input type="text" class="form-control" id="cost_price" v-model="product.cost_price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="selling_price">Selling Price</label>
+                                <input type="text" class="form-control" id="selling_price" v-model="product.selling_price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">QTY</label>
+                                <input type="text" class="form-control" id="quantity" v-model="product.quantity">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="galleryImages">Upload Gallery</label>
+                                <input type="file" class="form-control" id="galleryImages" ref="galleryImages" accept="image/*" @change.prevent="handleGalleryImage" multiple>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="status">Status</label>
                                 <select v-model="product.status" class="form-control" id="status">
                                     <option value="1">Active</option>
@@ -210,29 +230,6 @@
                     </div>
                 </div>
 
-                <div class="col-6">
-                    <div class="card" v-if="products">
-                        <div class="card">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <td>ID</td>
-                                            <td>Name</td>
-                                            <td>slug</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(product,i) in products" :key="i">
-                                            <td>@{{product.id}}</td>
-                                            <td>@{{product.title}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             
         </div>

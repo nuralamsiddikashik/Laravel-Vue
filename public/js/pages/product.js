@@ -11,6 +11,10 @@ let app = new Vue({
             description: '',
             status: 1,
             feature_image: '',
+            cost_price: '',
+            selling_price: '',
+            quantity: '',
+            gallery: [],
         },
         file: '',
         files: [],
@@ -37,6 +41,12 @@ let app = new Vue({
             formData.append('sku', this.product.sku);
             formData.append('description', this.product.description);
             formData.append('feature_image', this.product.feature_image);
+            formData.append('cost_price', this.product.cost_price);
+            formData.append('selling_price', this.product.selling_price);
+            formData.append('quantity', this.product.quantity);
+            for (let file of this.product.gallery) {
+                formData.append('gallery[]', file);
+            }
 
             axios.post(route, formData, {
                 headers: {
@@ -63,14 +73,27 @@ let app = new Vue({
                 description: '',
                 status: 1,
                 feature_image: '',
+                cost_price: '',
+                selling_price: '',
+                quantity: '',
+                gallery: [],
+
             }
             const featureImage = this.$refs.featureImage;
+            const galleryImages = this.$refs.galleryImages
             featureImage.type = 'text';
             featureImage.type = 'file';
+            galleryImages.type = 'text';
+            galleryImages.type = 'file';
         },
         handleFeatureImage() {
 
             this.product.feature_image = this.$refs.featureImage.files[0];
+        },
+        handleGalleryImage() {
+            for (let file of this.$refs.galleryImages.files) {
+                this.product.gallery.push(file);
+            }
         }
     },
     computed: {

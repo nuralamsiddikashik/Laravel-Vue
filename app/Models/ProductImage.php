@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductPrice extends Model {
+class ProductImage extends Model {
     use HasFactory;
-    protected $table   = "product_prices";
+    protected $table   = 'product_imgaes';
     protected $guarded = [];
 
     public function product() {
-
         return $this->belongsTo( Product::class );
-
     }
 
 }
