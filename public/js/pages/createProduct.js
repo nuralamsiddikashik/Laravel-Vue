@@ -1,7 +1,5 @@
-
-
 let app = new Vue({
-    el: '#productPage',
+    el: '#createProductPage',
     data: {
         products: [],
         product: {
@@ -59,10 +57,10 @@ let app = new Vue({
                 } else {
                     toastr.error(response.data.message);
                 }
-            })
-                .catch(e => {
-                    console.log(e.message);
-                });
+            }).catch(error => {
+                console.log(error);
+                toastr.error(error.message);
+            });
         },
 
         resetProduct() {

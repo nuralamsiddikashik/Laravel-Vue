@@ -10,7 +10,7 @@ interface ProductRepositoryInterface {
     /**
      * @return mixed
      */
-    public function get();
+    public function get( array $selected_fields, array $relations );
 
     /**
      * @param $id

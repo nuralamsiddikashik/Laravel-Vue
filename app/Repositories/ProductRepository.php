@@ -15,8 +15,13 @@ class ProductRepository implements ProductRepositoryInterface {
     public function __construct( Product $model ) {
         $this->model = $model;
     }
-    public function get() {
 
+    public function get( array $selected_fields = ['*'], array $relations = [] ) {
+        $products = $this->model
+            ->select( $selected_fields )
+            ->with( $relations );
+
+        return $products->get();
     }
 
     /**

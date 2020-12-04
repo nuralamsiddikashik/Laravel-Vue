@@ -17,11 +17,16 @@ class ProductController extends Controller {
         $this->request = $request;
     }
 
-    public function index( CategoryRepositoryInterface $categoryRepository ) {
+    public function index() {
+
+        return view( 'product.index' );
+    }
+
+    public function create( CategoryRepositoryInterface $categoryRepository ) {
         $data['categories'] = $categoryRepository->get( false );
         $data['categories'] = $data['categories']->pluck( 'name', 'id' )->toArray();
 
-        return view( 'product.index', $data, );
+        return view( 'product.create', $data, );
     }
 
     public function store( ProductRepositoryInterface $productRepository, ProductPriceRepositoryInterface $productPriceRepository, ProductImageRepositoryInterface $productImageRepository ) {
@@ -34,8 +39,8 @@ class ProductController extends Controller {
                 'sku'           => 'required|string|unique:products,sku',
                 'status'        => 'required|numeric|min:1|max:3',
                 'feature_image' => ['required', 'image', 'mimes:jpg,png,jpeg,svg', 'max:2048'],
-                'cost_price'    => 'r equired|numeric',
-                'selling_price' => 'required|numeric',
+                'cost_price'    => 'required|numeric',
+                'selling_price' => 'required|numeric|gt:cost_price',
                 'quantity'      => 'required|numeric',
                 'gallery'       => ['nullable', 'array', 'max:20', function ( $attribute, $value, $fail ) {
                     if ( !$this->request->file( 'gallery' ) ) {
@@ -69,12 +74,18 @@ class ProductController extends Controller {
             } catch ( QueryException $exception ) {
                 DB::rollBack();
                 app( 'log' )->debug( "product query", [$exception] );
+                return response()->json( [
+                    'message' => 'Products add failed!!',
+                ], 406 );
             }
             try {
                 $gallery = $productImageRepository->store( $data );
             } catch ( QueryException $exception ) {
                 DB::rollBack();
                 app( 'log' )->debug( "product query", [$exception] );
+                return response()->json( [
+                    'message' => 'Products add failed!!',
+                ], 406 );
             }
 
             DB::commit();
@@ -91,10 +102,9 @@ class ProductController extends Controller {
         }
     }
 
-    public function getProductList( ProductRepositoryInterface $productRepository ) {
-
+    public function getProductList( Request $request, ProductRepositoryInterface $productRepository ) {
         try {
-            $products = $productRepository->get();
+            $products = $productRepository->get( ['id', 'category_id', 'title', 'sku', 'feature_image', 'status'], ['prices', 'images', 'category'], true );
             return response()->json( [
                 'message' => 'Product List',
                 'data'    => $products,
@@ -102,6 +112,5 @@ class ProductController extends Controller {
         } catch ( QueryException | \Exception $exception ) {
             return response()->json( ['message' => $exception->getMessage()] );
         }
-
     }
 }

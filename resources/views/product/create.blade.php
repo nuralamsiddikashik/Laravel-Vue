@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid px-0" id="productPage" v-cloak>
+    <div class="container-fluid px-0" id="createProductPage" v-cloak>
         <!-- The side bar -->
     @include('layouts.partials.sidebar')
 
@@ -161,28 +161,77 @@
                 <h5 class="font-weight-normal">Product</h5>
             </div>
             <div class="row mt-4">
-                <div class="col-12 offset-md-12">
+                <div class="col-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th width="10%"><p class="mb-0">Serial</p></th>
-                                            <th width="20%"><p class="mb-0">Feature Image</p></th>
-                                            <th width="20%"><p class="mb-0">Product Name</p></th>
-                                            <th width="10%"><p class="mb-0">SKU</p></th>
-                                            <th width="30"><p class="mb-0">Category Name</p></th>
-                                            <th width="15%"><p class="mb-0">Status</p></th>
-                                            <th width="15%"><p class="mb-0">Action</p></th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input class="form-control" type="text" id="title" name="title" v-model="product.title">
                             </div>
+
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                               <textarea name="description" id="description" cols="10" rows="5" class="form-control" v-model="product.description"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sku">SKU</label>
+                                <input type="text" id="sku" name="sku" class="form-control" v-model="product.sku">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select v-model="product.category_id" class="form-control" id="category">
+                                    @foreach($categories as $category_id => $category_name)
+                                        <option value="{{ $category_id}}">{{ $category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="file" class="form-control" id="featureImage" ref="featureImage" accept="image/*" @change.prevent="handleFeatureImage">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost_price">Cost Price</label>
+                                <input type="text" class="form-control" id="cost_price" v-model="product.cost_price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="selling_price">Selling Price</label>
+                                <input type="text" class="form-control" id="selling_price" v-model="product.selling_price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">QTY</label>
+                                <input type="text" class="form-control" id="quantity" v-model="product.quantity">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="galleryImages">Upload Gallery</label>
+                                <input type="file" class="form-control" id="galleryImages" ref="galleryImages" accept="image/*" @change.prevent="handleGalleryImage" multiple>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select v-model="product.status" class="form-control" id="status">
+                                    <option value="1">Active</option>
+                                    <option value="2">In Active</option>
+                                    <option value="3">Pending</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="published_by">{{__('Published By')}}</label>
+                                <input type="text" class="form-control" id="published_by" name="published_by" value="{{ auth()->user()->name}}" readonly>
+                            </div>
+                            <button class="btn btn-success" @click.prevent="StoreProduct('{{route('product.store')}}')">Submit</button>
                         </div>
                     </div>
                 </div>
+
             </div>
+            
         </div>
     </main>
         <!-- Footer section -->
@@ -196,5 +245,5 @@
     <script>
         let ProductListRoute = '{{ route('api.product.list')}}'
     </script>
-    <script type="module" src="{{ asset('js/pages/products.js') }}"></script>
+    <script type="module" src="{{ asset('js/pages/createProduct.js') }}"></script>
 @endpush
