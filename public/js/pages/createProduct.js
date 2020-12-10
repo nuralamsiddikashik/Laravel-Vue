@@ -18,18 +18,6 @@ let app = new Vue({
         files: [],
     },
     methods: {
-        getProductList() {
-            axios.get(ProductListRoute).then((response) => {
-                if (response.status === 200) {
-                    this.products = response.data.data;
-                } else {
-                    toastr.error(response.data.message);
-                }
-            })
-                .catch(error => {
-                    toastr.error(error.message)
-                })
-        },
         StoreProduct(route) {
 
             let formData = new FormData();

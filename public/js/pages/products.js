@@ -1,10 +1,10 @@
 let app = new Vue({
     el: '#productPage',
     data: {
-        products: {
+        products: {}
 
-        }
     },
+
     methods: {
         getAllProducts() {
             let route = ProductListRoute;
@@ -19,7 +19,8 @@ let app = new Vue({
                 .catch(error => {
                     toastr.error(error.message);
                 })
-        }
+        },
+
     },
     computed: {
 

@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
     use UploadFile;
-    public function __construct( Request $request ) {
-        $this->request = $request;
+    public function __construct( Request $request, ProductRepositoryInterface $productRepository, ProductPriceRepositoryInterface $productPriceRepository ) {
+        $this->request                = $request;
+        $this->productRepository      = $productRepository;
+        $this->productPriceRepository = $productPriceRepository;
     }
 
     public function index() {

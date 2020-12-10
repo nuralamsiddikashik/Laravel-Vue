@@ -177,6 +177,17 @@
                                             <th width="15%"><p class="mb-0">Action</p></th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        <tr v-for="(product, index) in products">
+                                            <td>@{{index++}}</td>
+                                            <td>Image</td>
+                                            <td>@{{ product.title}}</td>
+                                            <td>@{{ product.sku }}</td>
+                                            <td>@{{ product.category.name}}</td>
+                                            <td><span class="badge badge-pill" :class="product.status == 1 ? 'badge-success' : 'badge-danger'">@{{ product.status == 1 ? 'Active' : 'Inactive' }}</span></td>
+                                            <td>Delete</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
