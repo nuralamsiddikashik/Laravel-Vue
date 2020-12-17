@@ -28,8 +28,8 @@ class ProductRepository implements ProductRepositoryInterface {
      * @param $id
      * @return mixed
      */
-    public function find() {
-
+    public function find( $id ) {
+        return $this->model->find( $id );
     }
 
     /**
@@ -57,4 +57,7 @@ class ProductRepository implements ProductRepositoryInterface {
 
     }
 
+    public function destroy( $id ) {
+        return $this->model->destroy( $id );
+    }
 }

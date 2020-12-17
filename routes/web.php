@@ -20,6 +20,7 @@ Route::get( '/', function () {
 Auth::routes();
 
 Route::group( ['middleware' => ['auth']], function () {
+
     Route::get( '/home', 'HomeController@index' )->name( 'home' );
     Route::get( '/categories', 'CategoryController@index' )->name( 'categories' );
     Route::post( '/categories', 'CategoryController@addCategory' )->name( 'categories.store' );
@@ -35,5 +36,7 @@ Route::group( ['middleware' => ['auth']], function () {
 
 Route::group( ['middleware' => ['auth'], 'prefix' => 'api'], function () {
     Route::get( '/categories', 'CategoryController@getCategoryList' )->name( 'api.category.list' );
+    Route::get( '/categories-all', 'CategoryController@allCategory' )->name( 'api.category.list.all' );
     Route::get( '/products', 'ProductController@getProductList' )->name( 'api.product.list' );
+    Route::delete( '/products/{id}', 'ProductController@destroy' )->name( 'api.product.delete' );
 } );

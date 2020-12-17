@@ -179,13 +179,24 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(product, index) in products">
-                                            <td>@{{index++}}</td>
+                                            <td>@{{product.id}}</td>
                                             <td>Image</td>
                                             <td>@{{ product.title}}</td>
                                             <td>@{{ product.sku }}</td>
                                             <td>@{{ product.category.name}}</td>
-                                            <td><span class="badge badge-pill" :class="product.status == 1 ? 'badge-success' : 'badge-danger'">@{{ product.status == 1 ? 'Active' : 'Inactive' }}</span></td>
-                                            <td>Delete</td>
+                                            <td><span class="badge badge-pill" :class="product.status == 1 ? 'badge-success' : 'badge-danger'">@{{ product.status == 1 ? 'Active' : (product.status== 2 ? 'Inactive' : 'Pending') }}</span></td>
+
+                                            <td>
+                                                <div class="flex-row justify-content-around">
+
+                                                    <a href="#"><i class="fas fa-eye text-success"></i></a>
+
+                                                    <a href="#" data-toggle="modal" data-target="#editProduct" @click="selectProduct(product)"><i class="fas fa-pencil-alt text-success"></i></a>
+
+                                                    <a href="#" data-toggle="modal" data-target="#deleteProduct" @click="selectProduct(product)"><i class="fas fa-trash text-danger"></i></a>
+
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -194,6 +205,8 @@
                     </div>
                 </div>
             </div>
+            @include('modals.product.delete')
+            @include('modals.product.edit')
         </div>
     </main>
         <!-- Footer section -->
@@ -205,7 +218,8 @@
 @endsection
 @push('js')
     <script>
-        let ProductListRoute = '{{ route('api.product.list')}}'
+        let ProductListRoute = '{{ route('api.product.list')}}'; 
+        let CategoryListRoute = '{{ route('api.category.list.all')}}'
     </script>
     <script type="module" src="{{ asset('js/pages/products.js') }}"></script>
 @endpush

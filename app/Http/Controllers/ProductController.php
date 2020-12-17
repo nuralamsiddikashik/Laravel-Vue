@@ -115,4 +115,19 @@ class ProductController extends Controller {
             return response()->json( ['message' => $exception->getMessage()] );
         }
     }
+
+    public function destroy( $id, ProductRepositoryInterface $productRepository ) {
+        if ( !$productRepository->find( $id ) ) {
+            return response()->json( ['message' => 'Product Not Found'] );
+        }
+
+        try {
+            $productRepository->destroy( $id );
+            return response()->json( [
+                'message' => 'Product Deleted.',
+            ], 204 );
+        } catch ( QueryException | \Exception $exception ) {
+            return response()->json( ['message' => $exception->getMessage()] );
+        }
+    }
 }

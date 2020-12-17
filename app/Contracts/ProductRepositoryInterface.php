@@ -16,7 +16,7 @@ interface ProductRepositoryInterface {
      * @param $id
      * @return mixed
      */
-    public function find();
+    public function find( $id );
 
     /**
      * @param array $data
