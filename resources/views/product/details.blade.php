@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid px-0" id="productPage" v-cloak>
+    <div class="container-fluid px-0" id="detailProductPage" v-cloak>
         <!-- The side bar -->
     @include('layouts.partials.sidebar')
 
@@ -18,7 +18,7 @@
                     <p class="p-3 rounded side-nav-theme-primary side-nav-theme" theme-color="purple"></p>
                     <p class="p-3 rounded ml-2 side-nav-theme-light side-nav-theme" theme-color="light"></p>
                 </div>
-            </div>
+            </div> 
 
             <!-- The navbar -->
             <nav class="navbar navbar-expand navbar-light bg-light py-3">
@@ -161,52 +161,10 @@
                 <h5 class="font-weight-normal">Product</h5>
             </div>
             <div class="row mt-4">
-                <div class="col-12 offset-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th width="10%"><p class="mb-0">Serial</p></th>
-                                            <th width="20%"><p class="mb-0">Feature Image</p></th>
-                                            <th width="20%"><p class="mb-0">Product Name</p></th>
-                                            <th width="10%"><p class="mb-0">Sku</p></th>
-                                            <th width="30"><p class="mb-0">Category Name</p></th>
-                                            <th width="15%"><p class="mb-0">Status</p></th>
-                                            <th width="15%"><p class="mb-0">Action</p></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(product, index) in products">
-                                            <td>@{{product.id}}</td>
-                                            <td>Image</td>
-                                            <td>@{{ product.title}}</td>
-                                            <td>@{{ product.sku }}</td>
-                                            <td>@{{ product.category.name}}</td>
-                                            <td><span class="badge badge-pill" :class="product.status == 1 ? 'badge-success' : 'badge-danger'">@{{ product.status == 1 ? 'Active' : (product.status== 2 ? 'Inactive' : 'Pending') }}</span></td>
+              
 
-                                            <td>
-                                                <div class="flex-row justify-content-around">
-
-                                                    <a :href="'{{ route('product.details.page',':id')}}'.replace(':id',product.id)"><i class="fas fa-eye text-success"></i></a>
-
-                                                    <a href="#" data-toggle="modal" data-target="#editProduct" @click="selectProduct(product)"><i class="fas fa-pencil-alt text-success"></i></a>
-
-                                                    <a href="#" data-toggle="modal" data-target="#deleteProduct" @click="selectProduct(product)"><i class="fas fa-trash text-danger"></i></a>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            @include('modals.product.delete')
-            @include('modals.product.edit')
+            
         </div>
     </main>
         <!-- Footer section -->
@@ -216,10 +174,10 @@
         </footer>
     </div>
 @endsection
-@push('js')
+@push('js') 
     <script>
-        let ProductListRoute = '{{ route('api.product.list')}}'; 
-        let CategoryListRoute = '{{ route('api.category.list.all')}}'
+        let productId           = '{{ $product->id }}';
+        let productDetailsRoute = '{{ route('api.product.detail')}}';
     </script>
-    <script type="module" src="{{ asset('js/pages/products.js') }}"></script>
+    <script type="module" src="{{ asset('js/pages/detailProduct.js') }}"></script>
 @endpush

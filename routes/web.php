@@ -33,11 +33,13 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::get( '/products/create', 'ProductController@create' )->name( 'product.create' );
     Route::post( '/products', 'ProductController@store' )->name( 'product.store' );
     Route::put( '/products/{id}', 'ProductController@updateProduct' )->name( 'product.update' );
+    Route::get( '/products/{id}', 'ProductController@detailsPage' )->name( 'product.details.page' );
 } );
 
 Route::group( ['middleware' => ['auth'], 'prefix' => 'api'], function () {
     Route::get( '/categories', 'CategoryController@getCategoryList' )->name( 'api.category.list' );
     Route::get( '/categories-all', 'CategoryController@allCategory' )->name( 'api.category.list.all' );
     Route::get( '/products', 'ProductController@getProductList' )->name( 'api.product.list' );
+    Route::get( '/products-details', 'ProductController@getProductDetails' )->name( 'api.product.detail' );
     Route::delete( '/products/{id}', 'ProductController@destroy' )->name( 'api.product.delete' );
 } );

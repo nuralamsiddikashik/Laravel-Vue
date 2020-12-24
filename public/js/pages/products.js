@@ -1,15 +1,16 @@
 let app = new Vue({
-    el: '#productPage',
+    el: "#productPage",
     data: {
         products: {},
         product: {},
-        categories: []
+        categories: [],
     },
 
     methods: {
         getAllProducts() {
             let route = ProductListRoute;
-            axios.get(route)
+            axios
+                .get(route)
                 .then((response) => {
                     if (response.status === 200) {
                         this.products = response.data.data;
@@ -17,15 +18,16 @@ let app = new Vue({
                         toastr.error(response.data.message);
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     toastr.error(error.message);
-                })
+                });
         },
         selectProduct(product) {
             this.product = product;
         },
         getCategoryList() {
-            axios.get(CategoryListRoute)
+            axios
+                .get(CategoryListRoute)
                 .then((response) => {
                     if (response.status === 200) {
                         this.categories = response.data.data;
@@ -33,34 +35,38 @@ let app = new Vue({
                         toastr.error(response.data.message);
                     }
                 })
-                .catch(error => {
-                    toastr.error(error.message)
-                })
+                .catch((error) => {
+                    toastr.error(error.message);
+                });
         },
 
         updateProduct(route) {
-            axios.put(route, {
-                title: this.product.title,
-                slug: this.product.slug,
-                sku: this.product.sku,
-                category_id: this.product.category_id,
-            }).then((response) => {
-                if (response.status === 201) {
+            axios
+                .put(route, {
+                    title: this.product.title,
+                    slug: this.product.slug,
+                    sku: this.product.sku,
+                    category_id: this.product.category_id,
+                })
+                .then((response) => {
+                    if (response.status === 201) {
+                        this.resetProduct();
+                        this.getAllProducts();
+                        toastr.success(response.data.message);
+                    } else {
+                        this.resetProduct();
+                        toastr.error(response.data.message);
+                    }
+                })
+                .catch((error) => {
                     this.resetProduct();
-                    this.getAllProducts();
-                    toastr.success(response.data.message);
-                } else {
-                    this.resetProduct();
-                    toastr.error(response.data.message);
-                }
-            }).catch(error => {
-                this.resetProduct();
-                toastr.error(error.message);
-            })
+                    toastr.error(error.message);
+                });
         },
 
         deleteProduct(route) {
-            axios.delete(route)
+            axios
+                .delete(route)
                 .then((response) => {
                     if (response.status === 204) {
                         this.getAllProducts();
@@ -68,32 +74,25 @@ let app = new Vue({
                     } else {
                         toastr.error(response.data.message);
                     }
-                }).catch(error => {
-
-                    toastr.error(error.message);
                 })
+                .catch((error) => {
+                    toastr.error(error.message);
+                });
         },
         resetProduct() {
             this.product = {
-                title: '',
-                sku: '',
-                category_id: '',
-            }
-        }
-
+                title: "",
+                sku: "",
+                category_id: "",
+            };
+        },
     },
-    computed: {
-
-    },
-    watch: {
-
-    },
+    computed: {},
+    watch: {},
     created() {
-        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
         this.getAllProducts();
         this.getCategoryList();
     },
-    mounted() {
-
-    }
-})
+    mounted() {},
+});
