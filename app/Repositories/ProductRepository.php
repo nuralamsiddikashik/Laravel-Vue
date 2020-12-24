@@ -54,7 +54,14 @@ class ProductRepository implements ProductRepositoryInterface {
      * @return mixed
      */
     public function update( $id, array $data ) {
-
+        $product = $this->model->find( $id );
+        $product->update( [
+            'title'       => $data['title'],
+            'slug'        => Str::slug( $data['title'] ),
+            'sku'         => $data['sku'],
+            'category_id' => $data['category_id'],
+        ] );
+        return $product;
     }
 
     public function destroy( $id ) {

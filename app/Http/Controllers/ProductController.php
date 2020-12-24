@@ -116,6 +116,28 @@ class ProductController extends Controller {
         }
     }
 
+    public function updateProduct( $id, Request $request, ProductRepositoryInterface $productRepository ) {
+        if ( !$productRepository->find( $id ) ) {
+            return response()->json( ['message' => 'Product Not found'] );
+        }
+
+        try {
+            $data = $this->validate( $this->request, [
+                'title'       => 'required',
+                'sku'         => 'required',
+                'category_id' => '',
+
+            ] );
+            $productRepository->update( $id, $data );
+            return response()->json( [
+                'message' => 'Product updated.',
+            ], 201 );
+        } catch ( ValidationException $exception ) {
+            return response()->json( ['message' => $exception->getMessage()] );
+        }
+
+    }
+
     public function destroy( $id, ProductRepositoryInterface $productRepository ) {
         if ( !$productRepository->find( $id ) ) {
             return response()->json( ['message' => 'Product Not Found'] );

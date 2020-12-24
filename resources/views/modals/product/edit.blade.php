@@ -14,8 +14,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="editSlug">Sku</label>
-                    <input type="text" v-model="product.sku" id="editSlug" class="form-control">
+                    <label for="editSku">Sku</label>
+                    <input type="text" v-model="product.sku" id="editSku" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="edit_parent_cat">Product Category</label>
@@ -26,6 +26,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  @click="updateProduct('{{route('product.update',':id')}}'.replace(':id',product.id))" data-dismiss="modal">Update Product</button>
             </div>
         </div>
     </div>

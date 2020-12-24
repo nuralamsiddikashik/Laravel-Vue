@@ -37,6 +37,28 @@ let app = new Vue({
                     toastr.error(error.message)
                 })
         },
+
+        updateProduct(route) {
+            axios.put(route, {
+                title: this.product.title,
+                slug: this.product.slug,
+                sku: this.product.sku,
+                category_id: this.product.category_id,
+            }).then((response) => {
+                if (response.status === 201) {
+                    this.resetProduct();
+                    this.getAllProducts();
+                    toastr.success(response.data.message);
+                } else {
+                    this.resetProduct();
+                    toastr.error(response.data.message);
+                }
+            }).catch(error => {
+                this.resetProduct();
+                toastr.error(error.message);
+            })
+        },
+
         deleteProduct(route) {
             axios.delete(route)
                 .then((response) => {
@@ -53,7 +75,9 @@ let app = new Vue({
         },
         resetProduct() {
             this.product = {
-
+                title: '',
+                sku: '',
+                category_id: '',
             }
         }
 

@@ -32,6 +32,7 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::get( '/products', 'ProductController@index' )->name( 'product.index' );
     Route::get( '/products/create', 'ProductController@create' )->name( 'product.create' );
     Route::post( '/products', 'ProductController@store' )->name( 'product.store' );
+    Route::put( '/products/{id}', 'ProductController@updateProduct' )->name( 'product.update' );
 } );
 
 Route::group( ['middleware' => ['auth'], 'prefix' => 'api'], function () {

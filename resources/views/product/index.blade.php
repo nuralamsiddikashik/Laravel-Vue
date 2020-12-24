@@ -171,7 +171,7 @@
                                             <th width="10%"><p class="mb-0">Serial</p></th>
                                             <th width="20%"><p class="mb-0">Feature Image</p></th>
                                             <th width="20%"><p class="mb-0">Product Name</p></th>
-                                            <th width="10%"><p class="mb-0">SKU</p></th>
+                                            <th width="10%"><p class="mb-0">Sku</p></th>
                                             <th width="30"><p class="mb-0">Category Name</p></th>
                                             <th width="15%"><p class="mb-0">Status</p></th>
                                             <th width="15%"><p class="mb-0">Action</p></th>
