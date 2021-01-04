@@ -145,10 +145,10 @@ class ProductController extends Controller {
             return abort( 404 );
         }
         return view( 'product.details', $data );
+
     }
 
     public function getProductDetails() {
-
         try {
             $data = $this->validate( $this->request, [
                 'product_id' => 'required|integer|exists:products,id',
@@ -160,6 +160,27 @@ class ProductController extends Controller {
         } catch ( QueryException | \Exception $exception ) {
             return response()->json( [
                 'message' => 'Something went worng',
+            ], 406 );
+        }
+    }
+
+    public function priceUpdate() {
+        try {
+            $data = $this->validate( $this->request, [
+                'price_id'      => 'required|integer|exists:product_prices,id',
+                'cost_price'    => 'required|numeric',
+                'selling_price' => 'required|numeric|gt:cost_price',
+                'quantity'      => 'required|numeric|gt:0',
+            ] );
+            $price = $this->productPriceRepository->update( $data['price_id'], $data );
+            return response()->json( [], 204 );
+        } catch ( ValidationException $exception ) {
+            return response()->json( [
+                'message' => $exception->errors(),
+            ], 422 );
+        } catch ( QueryException | \Exception $exception ) {
+            return response()->json( [
+                'message' => 'Something Went wrong.',
             ], 406 );
         }
     }

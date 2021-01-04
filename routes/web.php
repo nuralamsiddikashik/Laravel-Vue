@@ -42,4 +42,5 @@ Route::group( ['middleware' => ['auth'], 'prefix' => 'api'], function () {
     Route::get( '/products', 'ProductController@getProductList' )->name( 'api.product.list' );
     Route::get( '/products-details', 'ProductController@getProductDetails' )->name( 'api.product.detail' );
     Route::delete( '/products/{id}', 'ProductController@destroy' )->name( 'api.product.delete' );
+    Route::put( 'price-update', 'ProductController@priceUpdate' )->name( 'api.product.price.update' );
 } );

@@ -2,6 +2,7 @@ let app = new Vue({
     el: "#detailProductPage",
     data: {
         product: {},
+        editProductPrice: {}
     },
     methods: {
         getProductDetails() {
@@ -11,9 +12,9 @@ let app = new Vue({
                         product_id: productId,
                     },
                 })
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log(response.data);
+                .then(response => {
+                    if (response.status === 200){
+                        this.product = response.data;
                     }
                 })
                 .catch((e) => {
@@ -29,6 +30,41 @@ let app = new Vue({
                     }
                 });
         },
+        selectProductPrice(price){
+            this.editProductPrice = price; 
+        },
+        resetProductPrice(){
+            this.editProductPrice = {}
+        },
+        updateProductPrice(route){
+            axios.put(route, {
+                price_id: this.editProductPrice.id,
+                cost_price: this.editProductPrice.cost_price, 
+                selling_price: this.editProductPrice.selling_price, 
+                quantity: this.editProductPrice.quantity, 
+            }).then(response => {
+                if(response.status === 204){
+                    this.getProductDetails(); 
+                    toastr.success('Price Updated');
+                }
+            }).catch(e => {
+                switch (e.response.status){
+                    case 422:
+                        toastr.error(e.response.message);
+                        break;
+                    case 406:
+                        toastr.error('Could not process data');
+                        break;
+                    case 500:
+                        toastr.error('Something Went wrong');
+                        break;
+                    default:
+                        toastr.error('Something Went wrong');
+                        break;
+                }
+
+            })
+        }
     },
     computed: {},
     watch: {},

@@ -161,8 +161,61 @@
                 <h5 class="font-weight-normal">Product</h5>
             </div>
             <div class="row mt-4">
-              
+                
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <p>Product Name</p>
+                                <p><strong>@{{product.title}}</strong></p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <p>SKU</p>
+                                <p><strong>@{{product.sku}}</strong></p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <p>Description</p>
+                                <p><strong>@{{product.description}}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>SKU UUID</th>
+                                            <th>Cost Price</th>
+                                            <th>Sell Price</th>
+                                            <th>Quantity</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(price,index) in product.prices">
+                                            <td>@{{price.sku_uuid}}</td>
+                                            <td>@{{price.cost_price}}</td>
+                                            <td>@{{price.selling_price}}</td>
+                                            <td>@{{price.quantity}}</td>
+                                            <td>
+                                                <div class="d-flex flex-row justify-content-around align-items-center">
+                                                    <a href="#" data-toggle="modal" data-target="#editProductPrice" @click="selectProductPrice(price)"><i class="fas fa-pencil-alt text-success"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            @include('modals.product.edit-price')
+                        </div>
+                    </div>
+                </div>
             </div>
             
         </div>

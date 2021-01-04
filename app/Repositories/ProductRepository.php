@@ -68,7 +68,7 @@ class ProductRepository implements ProductRepositoryInterface {
         return $this->model->select( $selected_fields )
             ->where( 'id', $product_id )
             ->with( $relations )
-            ->get();
+            ->first();
     }
 
     public function destroy( $id ) {

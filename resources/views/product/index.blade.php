@@ -207,6 +207,8 @@
             </div>
             @include('modals.product.delete')
             @include('modals.product.edit')
+           
+            
         </div>
     </main>
         <!-- Footer section -->
@@ -222,4 +224,6 @@
         let CategoryListRoute = '{{ route('api.category.list.all')}}'
     </script>
     <script type="module" src="{{ asset('js/pages/products.js') }}"></script>
+    
 @endpush
+
